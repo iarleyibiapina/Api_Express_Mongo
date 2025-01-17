@@ -18,6 +18,8 @@ services:
     working_dir: /usr/src/app
     volumes:
       - ./app:/usr/src/app 
+      - ./package-lock.json:/usr/src/app
+      - ./package.json:/usr/src/app 
       - /usr/src/app/node_modules # Evita que `node_modules` do container sobrescreva o local
     command: "npm run start" 
     depends_on:
