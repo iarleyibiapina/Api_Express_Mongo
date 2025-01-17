@@ -1,0 +1,14 @@
+services:
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    restart: always
+    ports:
+      - "27017:27017" 
+    env_file:
+      - ./Env/Mongo/.env
+    volumes:
+      - mongo_data:/data/db
+volumes:
+  mongo_data:
+    driver: local
