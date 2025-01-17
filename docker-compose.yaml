@@ -9,6 +9,24 @@ services:
       - ./Env/Mongo/.env
     volumes:
       - mongo_data:/data/db
+  node:
+    image: node:latest
+    container_name: node-app
+    restart: always
+    ports:
+      - "3000:3000" 
+    working_dir: /usr/src/app
+    volumes:
+      - ./app:/usr/src/app 
+      - /usr/src/app/node_modules # Evita que `node_modules` do container sobrescreva o local
+    command: "npm run start" 
+    depends_on:
+      - mongo
+    env_file:
+      - ./Env/Node/.env
+    # acessar container node
+    # docker exec -it node-app sh
+
 volumes:
   mongo_data:
     driver: local
