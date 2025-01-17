@@ -1,0 +1,26 @@
+FROM node:latest AS base
+# Criando diretório do app
+WORKDIR /usr/src/app
+# Expondo a porta
+EXPOSE 3333
+# Ambiente de desenvolvimento
+FROM base AS dev
+# Instalando dependências de desenvolvimento
+COPY ./package.json ./package-lock.json ./
+RUN npm ci --include=dev
+# Copiando o código da aplicação
+COPY . .
+# Comando para desenvolvimento
+RUN npm install
+CMD ["npm", "run", "dev"]
+
+# Ambiente de produção
+FROM base AS prod
+# Instalando dependências para produção
+COPY ./package.json .package-lock.json ./
+RUN npm ci --omit=dev
+# Copiando o código da aplicação
+COPY . .
+# Comando para produção
+RUN npm install
+CMD ["npm", "start"]

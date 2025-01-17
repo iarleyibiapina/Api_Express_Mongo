@@ -1,12 +1,12 @@
 const app  = require("express")();
 const express = require("express");
 const path = require('path');
-require('dotenv').config({ path: path.resolve(__dirname, './Env/Node/.env') });
+require('dotenv').config({ path: path.resolve(__dirname, './env/Node/.env') });
 
 // CONEXAO COM O BANCO
-const db     = require("./app/Database/Connection/MongoDb.js")
-const Router = require("./app/Routes/Router.js");
-const FILTER = require("./app/Http/Filters/Filter.js");
+const db     = require("./Database/Connection/MongoDb.js")
+const Router = require("./Routes/Router.js");
+const FILTER = require("./Http/Filters/Filter.js");
 // 
 app.use(express.json()); // parsea para json
 

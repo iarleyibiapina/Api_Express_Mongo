@@ -3,8 +3,10 @@ const { Router } = require("express");
 const VERSION_1 = '/v1';
 const router = Router();
 // 
-const ComissaoRoutes  = require("./v1/ComissaoRoutes.js");
-const FiliadoRoutes   = require("./v1/FiliadoRoutes.js");
+const ComissaoRoutes  = require(`./${VERSION_1}/ComissaoRoutes.js`);
+const FiliadoRoutes   = require("./v1/FiliadoRoutes.js"
+    
+);
 const PagamentoRoutes = require("./v1/PagamentoRoutes.js");
 
 router.get(`${VERSION_1}/teste`, (req, res) => {

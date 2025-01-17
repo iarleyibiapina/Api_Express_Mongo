@@ -1,5 +1,5 @@
 const path = require('path');
-require('dotenv').config({ path: path.resolve(__dirname, '../../../Env/Mongo/.env') });
+require('dotenv').config({ path: path.resolve(__dirname, '../../../env/Mongo/.env') });
 const mongoose = require("mongoose");
 
 // Monta a URL dinamicamente usando variáveis de ambiente

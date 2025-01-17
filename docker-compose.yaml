@@ -8,14 +8,14 @@ services:
     networks:
       - my_network
     env_file:
-      - ./Env/Mongo/.env
+      - ./app/env/Mongo/.env
     volumes:
       - mongo_data:/data/db
   node:
-    container_name: node-app
+    container_name: node
     restart: always
     build:
-      context: ./
+      context: ./app/
       target: ${ENVIRONMENT}
     networks:
       - my_network
@@ -27,7 +27,8 @@ services:
     depends_on:
       - mongo
     env_file:
-      - ./Env/Node/.env
+      - ./app/env/Node/.env
+      - ./app/env/Mongo/.env
     # acessar container node
     # docker exec -it node-app sh
 
