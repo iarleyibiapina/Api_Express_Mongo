@@ -3,7 +3,27 @@ const ComissaoRepository = require("../../Database/Repositories/Mongo/ComissaoRe
 class ComissaoService
 {
     constructor() {
-        this.exampleRepository = new ComissaoRepository();
+        this.ComissaoRepository = new ComissaoRepository();
+    }
+
+    async criar(comissao)
+    {
+        return this.ComissaoRepository.criar(comissao);
+    }
+    
+    async listar()
+    {
+        return this.ComissaoRepository.listar();
+    }
+
+    async atualizar(id, comissao)
+    {
+        return this.ComissaoRepository.atualizar(id, comissao);
+    }
+
+    async deletar(id)
+    {
+        return this.ComissaoRepository.deletar(id);
     }
 }
 

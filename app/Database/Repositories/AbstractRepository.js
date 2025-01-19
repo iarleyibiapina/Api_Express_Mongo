@@ -3,7 +3,7 @@ class AbstractRepository {
 
   async criar(dados) {
     try {
-        throw new Error('Requer implementacao');
+      throw new Error('Requer implementacao');
     } catch (error) {
       throw error;
     }
@@ -11,7 +11,16 @@ class AbstractRepository {
 
   async listar() {
     try {
-        throw new Error('Requer implementacao');
+      throw new Error('Requer implementacao');
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async encontrar(id)
+  {
+    try {
+      throw new Error('Requer implementacao');
     } catch (error) {
       throw error;
     }
@@ -27,7 +36,7 @@ class AbstractRepository {
 
   async deletar(id) {
     try {
-        throw new Error('Requer implementacao');
+      throw new Error('Requer implementacao');
     } catch (error) {
       throw error;
     }

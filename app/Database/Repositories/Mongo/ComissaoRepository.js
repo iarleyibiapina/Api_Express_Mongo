@@ -17,16 +17,23 @@ class ComissaoRepository extends AbstractRepository
 
   async listar() {
     try {
-      const comissoes = await Comissao.find().exec();
+      const comissoes = await Comissao.find();
       return comissoes;
     } catch (error) {
       throw error;
     }
   }
 
+  async encontrar(id) {
+    const comissao = await Comissao.findById(id);
+    if (!comissao) throw new NotFoundException('Comissão não encontrada');
+    return comissao;
+  }
+
   async atualizar(id, dados) {
     try {
       const comissaoAtualizada = await Comissao.findByIdAndUpdate(id, dados, { new: true });
+      if (!comissao) throw new NotFoundException('Comissão não encontrada');
       return comissaoAtualizada;
     } catch (error) {
       throw error;

@@ -1,17 +1,18 @@
 const Comissao = require('../../../Database/Models/Comissao.js');
 const ComissaoDTO = require('../../DTOs/ComissaoDTO.js');
 const NotFoundException = require('../../Exceptions/NotFoundException.js');
+const ComissaoService = require('../../Services/ComissaoService.js');
 
 class ComissaoController {
+
+  constructor()
+  { 
+    this.ComissaoService = new ComissaoService();
+  }
+
   async store(req, res, next) {
     try {
-      const comissao = new Comissao(new ComissaoDTO({
-        filiado_id: req.body.filiado_id,
-        valor_comissao: req.body.valor_comissao,
-        descricao: req.body.descricao,
-      }).toObject());
-      const savedComissao = await comissao.save();
-      return res.status(201).json(savedComissao);
+      return res.status(201).json(await this.ComissaoService.criar(req.body));
     } catch (err) {
       next(err);
     }
@@ -19,8 +20,7 @@ class ComissaoController {
 
   async get(req, res, next) {
     try {
-      const comissoes = await Comissao.find();
-      return res.json(comissoes);
+      return res.json(await this.ComissaoService.listar());
     } catch (err) {
       next(err);
     }
@@ -28,16 +28,7 @@ class ComissaoController {
 
   async find(req, res, next) {
     try {
-      const id = req.params.id;
-      const comissao = await Comissao.findById(id);
-      if (!comissao) throw new NotFoundException('Comissão não encontrada');
-      const objectComissao = comissao.toObject();
-      const comissaoDTO = new ComissaoDTO({
-        filiado_id: objectComissao.filiado_id,
-        valor_comissao: objectComissao.valor_comissao,
-        descricao: objectComissao.descricao,
-      });
-      return res.json(comissaoDTO.toObject());
+      return res.json(this.ComissaoService.encontrar(req.params.id));
     } catch (err) {
       next(err);
     }
@@ -45,10 +36,7 @@ class ComissaoController {
 
   async update(req, res, next) {
     try {
-      const id = req.params.id;
-      const comissao = await Comissao.findByIdAndUpdate(id, req.body, { new: true });
-      if (!comissao) throw new NotFoundException('Comissão não encontrada');
-      return res.json(comissao);
+      return res.json(await this.ComissaoService.atualizar(req.params.id, req.params.body));
     } catch (err) {
       next(err);
     }
@@ -56,8 +44,7 @@ class ComissaoController {
 
   async delete(req, res, next) {
     try {
-      const id = req.params.id;
-      await Comissao.findByIdAndDelete(id);
+      await this.ComissaoService.deletar(req.params.id);
       return res.status(204).send();
     } catch (err) {
       next(err);
