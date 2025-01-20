@@ -3,43 +3,61 @@ const ComissaoDTO = require("../DTOs/ComissaoDTO");
 
 class ComissaoService
 {
-    constructor() {
-        this.ComissaoRepository = new ComissaoRepository();
-    }
-
     async criar(comissao)
     {
-        return await this.ComissaoRepository.criar(new ComissaoDTO({
-            filiado_id:     comissao.filiado_id,
-            valor_comissao: comissao.valor_comissao,
-            descricao:      comissao.descricao,
-          }).toObject());
+        try {
+            return await ComissaoRepository.criar(new ComissaoDTO({
+                filiado_id:     comissao.filiado_id,
+                valor_comissao: comissao.valor_comissao,
+                descricao:      comissao.descricao,
+            }).toObject());
+        } catch (error) {
+            throw error;
+        }
     }
 
     async listar()
     {
-        return await this.ComissaoRepository.listar();
+        try { 
+            const comissoes = await ComissaoRepository.listar();        
+            return comissoes.length == 0 ? { mensagem:  "Nao ha comissoes"} : comissoes;
+        } catch (error) {
+            throw error;
+        }
     }
 
     async encontrar(id) 
     {
-        const objectComissao = this.ComissaoRepository.encontrar(id).toObject();
-        return new ComissaoDTO({
-          filiado_id: objectComissao.filiado_id,
-          valor_comissao: objectComissao.valor_comissao,
-          descricao: objectComissao.descricao,    
-        }).toObject();
+        try{
+            const objectComissao = await ComissaoRepository.encontrar(id);
+            return new ComissaoDTO({
+            filiado_id:     objectComissao.filiado_id,
+            data:           objectComissao.data,
+            valor_comissao: objectComissao.valor_comissao,
+            descricao:      objectComissao.descricao,    
+            }).toObject();
+        } catch (error) {
+            throw error;
+        }
     }
 
     async atualizar(id, comissao)
     {
-        return await this.ComissaoRepository.atualizar(id, comissao);
+        try {
+            return await ComissaoRepository.atualizar(id, comissao);
+        } catch (error) {
+            throw error;
+        }
     }
 
     async deletar(id)
     {
-        return await this.ComissaoRepository.deletar(id);
+        try { 
+            return await ComissaoRepository.deletar(id);
+        } catch (error) {
+            throw error;
+        }
     }
 }
 
-module.exports = ComissaoService;
+module.exports = new ComissaoService();
