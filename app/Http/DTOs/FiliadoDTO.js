@@ -3,12 +3,12 @@ class FiliadoDTO {
       nome_filiado,
       meta,
       url,
-      comissao_por_clic,
+      numero_de_clicks,
     }) {
-      this._nome_filiado = this._validateNomeFiliado(nome_filiado);
-      this._meta = this._validateMeta(meta);
-      this._url = this._validateUrl(url);
-      this._comissao_por_clic = this._validateComissaoPorClic(comissao_por_clic);
+      this._nome_filiado        = this._validateNomeFiliado(nome_filiado);
+      this._meta                = this._validateMeta(meta);
+      this._url                 = this._validateUrl(url);
+      this._numero_de_clicks = this._validateComissaoPorClique(numero_de_clicks);
     }
   
     _validateNomeFiliado(nome_filiado) {
@@ -32,11 +32,11 @@ class FiliadoDTO {
       return url.trim();
     }
   
-    _validateComissaoPorClic(comissao_por_clic) {
-      if (typeof comissao_por_clic !== 'number' || comissao_por_clic <= 0) {
+    _validateComissaoPorClique(numero_de_clicks) {
+      if (typeof numero_de_clicks !== 'number' || numero_de_clicks < 0) {
         throw new Error('A comissão por clique deve ser um número positivo.');
       }
-      return comissao_por_clic;
+      return numero_de_clicks;
     }
   
     get nome_filiado() {
@@ -51,8 +51,8 @@ class FiliadoDTO {
       return this._url;
     }
   
-    get comissao_por_clic() {
-      return this._comissao_por_clic;
+    get numero_de_clicks() {
+      return this._numero_de_clicks;
     }
   
     toObject() {
@@ -60,7 +60,7 @@ class FiliadoDTO {
         nome_filiado: this._nome_filiado,
         meta: this._meta,
         url: this._url,
-        comissao_por_clic: this._comissao_por_clic,
+        numero_de_clicks: this._numero_de_clicks,
       };
     }
   }
