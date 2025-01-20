@@ -6,6 +6,7 @@ EXPOSE 3333
 # Ambiente de desenvolvimento
 FROM base AS dev
 # Instalando dependências de desenvolvimento
+RUN apt-get update && apt-get install -y 
 COPY ./package.json ./package-lock.json ./
 RUN npm ci --include=dev
 # Copiando o código da aplicação
