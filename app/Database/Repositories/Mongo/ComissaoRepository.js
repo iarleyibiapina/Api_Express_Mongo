@@ -1,10 +1,12 @@
 // ComissaoRepository.js
 const mongoose = require('mongoose');
 const AbstractRepository = require('../AbstractRepository');
-const Comissao = mongoose.model('Comissao');
+const Comissao = require('../../Models/Comissao');
 
 class ComissaoRepository extends AbstractRepository
 {
+  _objectIdRegex = /^[a-f\d]{24}$/i; // regex para id
+
   async criar(comissao) {
     try {
       const novaComissao = new Comissao(comissao);
@@ -25,16 +27,22 @@ class ComissaoRepository extends AbstractRepository
   }
 
   async encontrar(id) {
-    const comissao = await Comissao.findById(id);
-    if (!comissao) throw new NotFoundException('Comissão não encontrada');
-    return comissao;
+    try {
+      if(! this._objectIdRegex.test(id)) throw new Error('Informe um id valido');
+      const comissao = await Comissao.findById(id);
+      if (!comissao) throw new Error('Comissão não encontrada');
+      return comissao;
+    } catch (error) {
+      throw error;
+    }
   }
 
   async atualizar(id, dados) {
     try {
-      const comissaoAtualizada = await Comissao.findByIdAndUpdate(id, dados, { new: true });
-      if (!comissao) throw new NotFoundException('Comissão não encontrada');
-      return comissaoAtualizada;
+      if(! this._objectIdRegex.test(id)) throw new Error('Informe um id valido');
+      const comissao = await Comissao.findByIdAndUpdate(id, dados, { new: true });
+      if (!comissao) throw new Error('Comissão não encontrada');
+      return comissao;
     } catch (error) {
       throw error;
     }
@@ -42,6 +50,7 @@ class ComissaoRepository extends AbstractRepository
 
   async deletar(id) {
     try {
+      if(! this._objectIdRegex.test(id)) throw new Error('Informe um id valido');
       await Comissao.findByIdAndDelete(id);
     } catch (error) {
       throw error;
@@ -49,4 +58,4 @@ class ComissaoRepository extends AbstractRepository
   }
 }
 
-module.exports = ComissaoRepository;
+module.exports = new ComissaoRepository();

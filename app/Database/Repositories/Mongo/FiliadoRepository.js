@@ -1,8 +1,12 @@
 // FiliadoRepository.js
 const mongoose = require('mongoose');
-const Filiado = mongoose.model('Filiado');
+const Filiado = require('../../Models/Filiado');
+const AbstractRepository = require('../AbstractRepository');
 
-class FiliadoRepository {
+class FiliadoRepository extends AbstractRepository 
+{
+  _objectIdRegex = /^[a-f\d]{24}$/i; // regex para id
+
   async criar(filiado) {
     try {
       const novoFiliado = new Filiado(filiado);
@@ -15,8 +19,19 @@ class FiliadoRepository {
 
   async listar() {
     try {
-      const filiados = await Filiado.find().exec();
+      const filiados = await Filiado.find();
       return filiados;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async encontrar(id) {
+    try {
+      if(! this._objectIdRegex.test(id)) throw new Error('Informe um id valido');
+      const filiado = Filiado.findById(id);
+      if (!filiado) throw new NotFoundException('Filiado não encontrado');
+      return filiado;
     } catch (error) {
       throw error;
     }
@@ -24,6 +39,7 @@ class FiliadoRepository {
 
   async atualizar(id, dados) {
     try {
+      if(! this._objectIdRegex.test(id)) throw new Error('Informe um id valido');
       const filiadoAtualizado = await Filiado.findByIdAndUpdate(id, dados, { new: true });
       return filiadoAtualizado;
     } catch (error) {
@@ -33,11 +49,24 @@ class FiliadoRepository {
 
   async deletar(id) {
     try {
-      await Filiado.findByIdAndDelete(id);
+      if(! this._objectIdRegex.test(id)) throw new Error('Informe um id valido');
+      return await Filiado.findByIdAndDelete(id);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async clique(id) {
+    try {
+      if(! this._objectIdRegex.test(id)) throw new Error('Informe um id valido');
+      return await Filiado.findByIdAndUpdate( id, 
+        { $inc: { numero_de_clicks: 1 } },
+        { new: true} 
+      );
     } catch (error) {
       throw error;
     }
   }
 }
 
-module.exports = FiliadoRepository;
+module.exports = new FiliadoRepository();
