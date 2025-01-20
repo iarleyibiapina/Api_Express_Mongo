@@ -6,6 +6,7 @@ const FiliadoController = require("../../Http/Controllers/v1/FiliadoController")
 router
  .get("/filiados", FiliadoController.get)
  .post("/filiado", FiliadoController.store)
+ .patch("/filiado/:id/clique", FiliadoController.clicado)
  .get("/filiado/:id", FiliadoController.find)
  .put("/filiado/:id", FiliadoController.update)
  .delete("/filiado/:id", FiliadoController.delete);
