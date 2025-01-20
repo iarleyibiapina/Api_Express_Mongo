@@ -1,18 +1,10 @@
-const Comissao = require('../../../Database/Models/Comissao.js');
-const ComissaoDTO = require('../../DTOs/ComissaoDTO.js');
-const NotFoundException = require('../../Exceptions/NotFoundException.js');
 const ComissaoService = require('../../Services/ComissaoService.js');
 
 class ComissaoController {
 
-  constructor()
-  { 
-    this.ComissaoService = new ComissaoService();
-  }
-
   async store(req, res, next) {
     try {
-      return res.status(201).json(await this.ComissaoService.criar(req.body));
+      return res.status(201).json(await ComissaoService.criar(req.body));
     } catch (err) {
       next(err);
     }
@@ -20,7 +12,7 @@ class ComissaoController {
 
   async get(req, res, next) {
     try {
-      return res.json(await this.ComissaoService.listar());
+      return res.json(await ComissaoService.listar());
     } catch (err) {
       next(err);
     }
@@ -28,7 +20,7 @@ class ComissaoController {
 
   async find(req, res, next) {
     try {
-      return res.json(this.ComissaoService.encontrar(req.params.id));
+      return res.json(await ComissaoService.encontrar(req.params.id));
     } catch (err) {
       next(err);
     }
@@ -36,7 +28,7 @@ class ComissaoController {
 
   async update(req, res, next) {
     try {
-      return res.json(await this.ComissaoService.atualizar(req.params.id, req.params.body));
+      return res.json(await ComissaoService.atualizar(req.params.id, req.body));
     } catch (err) {
       next(err);
     }
@@ -44,7 +36,7 @@ class ComissaoController {
 
   async delete(req, res, next) {
     try {
-      await this.ComissaoService.deletar(req.params.id);
+      await ComissaoService.deletar(req.params.id);
       return res.status(204).send();
     } catch (err) {
       next(err);
